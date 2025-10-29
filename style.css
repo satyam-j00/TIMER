@@ -1,0 +1,166 @@
+/* style.css */
+
+/* * We set our animation progress as a variable. 
+ * JavaScript will update '--progress' from 0 to 100.
+ */
+:root {
+    --progress: 0; 
+    --sky-color-top: #ffcf99;    /* Dawn */
+    --sky-color-bottom: #f794a0; /* Dawn */
+    --body-color: #ffd700;       /* Sun */
+    --body-glow: #ffc40088;      /* Sun glow */
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    overflow: hidden;
+    
+    /* The sky gradient! This will animate smoothly */
+    background: linear-gradient(
+        to bottom, 
+        var(--sky-color-top), 
+        var(--sky-color-bottom)
+    );
+    
+    /* This makes the gradient colors change smoothly */
+    transition: background 2s ease-in-out; 
+}
+
+/* NEW: Star container */
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Lets you click through it */
+}
+
+/* NEW: Style for a single star */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px white;
+    /* Animation for twinkling (optional) */
+    animation: twinkle 4s linear infinite;
+}
+
+/* NEW: Cloud container */
+#clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5; /* Place them below the sun/moon */
+}
+
+/* NEW: Base style for a cloud */
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    /* This box-shadow trick creates the fluffy shape */
+    box-shadow:
+        30px 30px rgba(255, 255, 255, 0.8),
+        -30px 30px rgba(255, 255, 255, 0.8),
+        0px -30px rgba(255, 255, 255, 0.8),
+        -20px -15px rgba(255, 255, 255, 0.8);
+    width: 100px;
+    height: 50px;
+    animation: drift linear infinite;
+}
+
+/* NEW: Give each cloud a different starting spot and speed */
+.cloud1 {
+    top: 10%;
+    animation-duration: 70s;
+    animation-delay: -10s;
+    transform: scale(0.8);
+}
+.cloud2 {
+    top: 20%;
+    animation-duration: 50s;
+    animation-delay: -30s;
+    transform: scale(1.2);
+}
+.cloud3 {
+    top: 15%;
+    animation-duration: 60s;
+    animation-delay: -20s;
+    transform: scale(1);
+}
+/* NEW: Keyframe animation for drifting clouds */
+@keyframes drift {
+    from {
+        transform: translateX(-200px);
+    }
+    to {
+        transform: translateX(100vw);
+    }
+}
+
+/* NEW: Keyframe animation for twinkling stars */
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+#celestial-body {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    
+    /* Center it horizontally */
+    left: 50%;
+    margin-left: -50px; 
+    
+    /* * This is the core visual logic!
+     * We use calc() to move the sun.
+     * At --progress: 0, it's at 100% (bottom).
+     * At --progress: 100, it's at 0% (top).
+     */
+    top: calc(100% - (var(--progress) * 1%));
+    
+    background: var(--body-color);
+    border-radius: 50%;
+    box-shadow: 0 0 50px var(--body-glow);
+    
+    /* This makes the movement and color changes smooth */
+    transition: all 1s linear; 
+}
+
+#controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* NEW: Style for the clock */
+#clock-display {
+    font-size: 5rem; /* Make it nice and big */
+    font-weight: 300; /* A thinner, modern font weight */
+    margin: 10px 0 20px 0; /* Give it space */
+}
+
+/* Other styles for buttons, etc. */
+button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
